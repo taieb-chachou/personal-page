@@ -512,7 +512,7 @@ Throughout his career, Dr. Taieb has collaborated with multidisciplinary teams o
         let lastScrollPosition = 0;
         let lastShownIndex = 0;
         const cards = document.querySelectorAll('.topic-card');
-
+        cards[0].classList.add('show');
         // Function to show all topic cards that fit in the initial screen view
         function showInitialCards() {
             for (let i = 0; i < cards.length; i++) {
