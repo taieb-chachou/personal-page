@@ -1,0 +1,54 @@
+<script>
+        let lastScrollPosition = 0;
+        let lastShownIndex = 0;
+        const cards = document.querySelectorAll('.topic-card');
+        cards[0].classList.add('show');
+        // Function to show all topic cards that fit in the initial screen view
+        function showInitialCards() {
+            for (let i = 0; i < cards.length; i++) {
+                const cardBottom = cards[i].getBoundingClientRect().bottom;
+
+                // Check if the card is within the initial screen view
+                if (cardBottom <= window.innerHeight) {
+                    cards[i].classList.add('show');
+                    lastShownIndex = i;
+                } else {
+                    break;
+                }
+            }
+        }
+
+        // Display all cards that fit in the screen when the page loads
+        showInitialCards();
+
+        // Function to handle scroll event
+        window.addEventListener('scroll', () => {
+            const currentScrollPosition = window.pageYOffset;
+
+            if (currentScrollPosition > lastScrollPosition) {
+                // Scrolling down - show the next card
+                if (lastShownIndex < cards.length - 1) {
+                    const nextCard = cards[lastShownIndex + 1];
+                    const nextCardTop = nextCard.getBoundingClientRect().top;
+
+                    if (nextCardTop < window.innerHeight && nextCardTop > 0) {
+                        nextCard.classList.add('show');
+                        lastShownIndex++;
+                    }
+                }
+            } else {
+                // Scrolling up - hide the last shown card
+                if (lastShownIndex > 0) {
+                    const lastCard = cards[lastShownIndex];
+                    const lastCardBottom = lastCard.getBoundingClientRect().bottom;
+
+                    if (lastCardBottom < 0 || lastCardBottom > window.innerHeight) {
+                        lastCard.classList.remove('show');
+                        lastShownIndex--;
+                    }
+                }
+            }
+
+            lastScrollPosition = currentScrollPosition;
+        });
+    </script>
